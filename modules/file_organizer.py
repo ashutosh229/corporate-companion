@@ -83,4 +83,4 @@ class FileOrganizer:
                 shutil.move(source, destination)
                 results[category].append(filename)
         
-        return
+        return results
