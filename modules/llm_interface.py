@@ -1,13 +1,16 @@
 import os
 import json
-from langchain.llms import LlamaCpp
-from langchain.callbacks.manager import CallbackManager
-from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
+from typing import Dict, List, Optional, Any
+
+# Updated imports for newer LangChain structure
+from langchain_community.llms import LlamaCpp
+from langchain_core.language_models.llms import LLM
+from langchain_core.callbacks.manager import CallbackManager, CallbackManagerForLLMRun
+from langchain_core.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
 from langchain.chains import LLMChain
-from langchain.prompts import PromptTemplate
+from langchain_core.prompts import PromptTemplate
 from langchain.output_parsers import PydanticOutputParser
-from pydantic import BaseModel, Field
-from typing import Dict, List, Optional
+from langchain_core.pydantic_v1 import BaseModel, Field
 
 class FileCategories(BaseModel):
     """Model for file categorization results."""
@@ -26,6 +29,43 @@ class HRPolicies(BaseModel):
     title: str = Field(description="Title of the policy")
     description: str = Field(description="Description of the policy")
     details: Optional[str] = Field(description="Additional details or clarifications")
+
+class MockLLM(LLM):
+    """Mock LLM class that properly implements the LangChain LLM interface."""
+    
+    @property
+    def _llm_type(self) -> str:
+        return "mock_llm"
+    
+    def _call(
+        self, 
+        prompt: str, 
+        stop: Optional[List[str]] = None,
+        run_manager: Optional[CallbackManagerForLLMRun] = None,
+        **kwargs
+    ) -> str:
+        """Simple implementation for demonstration."""
+        if "categorize" in prompt.lower() and "files" in prompt.lower():
+            return """
+            {
+                "categories": {
+                    "quarterly_report_Q1.pdf": "Finance",
+                    "balance_sheet.xlsx": "Finance",
+                    "annual_budget_2025.xlsx": "Finance",
+                    "expense_report_march.pdf": "Finance",
+                    "tax_documentation.pdf": "Finance",
+                    "employee_policy.docx": "HR",
+                    "leave_form.pdf": "HR",
+                    "onboarding_checklist.docx": "HR",
+                    "performance_review_template.docx": "HR",
+                    "benefits_overview.pdf": "HR"
+                }
+            }
+            """
+        elif "HR" in prompt and "query" in prompt:
+            return "Based on our company policies, employees are entitled to 20 days of paid leave annually. These days are accrued on a monthly basis. For more details, please consult the employee handbook or contact the HR department directly."
+        else:
+            return "I've processed your request, here's my response."
 
 class LLMInterface:
     def __init__(self, model_path="models/llama-3-8b-instruct.Q4_K_M.gguf"):
@@ -46,7 +86,8 @@ class LLMInterface:
                 callback_manager=callback_manager,
                 verbose=False
             )
-        except:
+        except Exception as e:
+            print(f"Error initializing LlamaCpp: {e}")
             # Fallback to a mock LLM for demo purposes
             self.llm = MockLLM()
     
@@ -73,16 +114,16 @@ class LLMInterface:
             partial_variables={"format_instructions": parser.get_format_instructions()}
         )
         
+        # Create an LLMChain with the properly implemented LLM
         chain = LLMChain(llm=self.llm, prompt=prompt)
         
         # Run the chain
         files_str = "\n".join(files)
-        result = chain.run(files=files_str)
-        
         try:
-            # Parse the result
-            output = parser.parse(result)
-            return output.categories
+            result = chain.run(files=files_str)
+            # Parse the result using the parser
+            parsed_output = parser.parse(result)
+            return parsed_output.categories
         except Exception as e:
             print(f"Error parsing LLM output: {e}")
             
@@ -141,39 +182,12 @@ class LLMInterface:
             }
         )
         
+        # Use LLMChain with compatible approach
         chain = LLMChain(llm=self.llm, prompt=prompt)
         
-        # Run the chain
         try:
             result = chain.run(query=query)
             return result.strip()
         except Exception as e:
             print(f"Error processing HR query: {e}")
             return "I'm sorry, I couldn't process your query. Please try again with a different question about HR policies or company events."
-
-
-class MockLLM:
-    """Mock LLM class for demonstration purposes."""
-    def __call__(self, prompt, *args, **kwargs):
-        """Simple implementation for demonstration."""
-        if "categorize" in prompt.lower() and "files" in prompt.lower():
-            return """
-            {
-                "categories": {
-                    "quarterly_report_Q1.pdf": "Finance",
-                    "balance_sheet.xlsx": "Finance",
-                    "annual_budget_2025.xlsx": "Finance",
-                    "expense_report_march.pdf": "Finance",
-                    "tax_documentation.pdf": "Finance",
-                    "employee_policy.docx": "HR",
-                    "leave_form.pdf": "HR",
-                    "onboarding_checklist.docx": "HR",
-                    "performance_review_template.docx": "HR",
-                    "benefits_overview.pdf": "HR"
-                }
-            }
-            """
-        elif "HR" in prompt and "query" in prompt:
-            return "Based on our company policies, employees are entitled to 20 days of paid leave annually. These days are accrued on a monthly basis. For more details, please consult the employee handbook or contact the HR department directly."
-        else:
-            return "I've processed your request, here's my response."
