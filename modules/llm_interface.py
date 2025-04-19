@@ -59,7 +59,7 @@ class LLMInterface:
         Files:
         {files}
         
-        Categorize each file into one of these categories: Finance, HR, Marketing, Engineering, Sales, Legal, or Other.
+        Categorize each file into one of these categories: Finance or HR.
         Return your answer as a JSON object where the keys are the filenames and the values are the categories.
         
         {format_instructions}
@@ -90,7 +90,7 @@ class LLMInterface:
             categories = {}
             for file in files:
                 lower_file = file.lower()
-                if any(term in lower_file for term in ["budget", "financ", "report", "tax", "expense", "balance"]):
+                if any(term in lower_file for term in ["budget", "finance", "report", "tax", "expense", "balance"]):
                     categories[file] = "finance"
                 elif any(term in lower_file for term in ["hr", "employee", "leave", "onboarding", "review", "benefit"]):
                     categories[file] = "hr"
