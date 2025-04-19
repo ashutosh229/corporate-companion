@@ -178,7 +178,8 @@ elif st.session_state.current_task == "scheduler":
                     st.error("No available slots found in the specified date range.")
         else:
             st.warning("Please select at least one participant.")
-
+            
+            
 # File Organizer Task
 elif st.session_state.current_task == "file_organizer":
     st.header("Intelligent File Organizer")
