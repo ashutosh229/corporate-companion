@@ -38,7 +38,7 @@ class UserManager:
         # Validate phone (optional but if provided should be valid)
         if phone:
             try:
-                parsed_number = phonenumbers.parse(phone, "US")  # Default to US, could be made configurable
+                parsed_number = phonenumbers.parse(phone, "IN")  # Default to US, could be made configurable
                 if not phonenumbers.is_valid_number(parsed_number):
                     errors["phone"] = "Invalid phone number format."
                     is_valid = False

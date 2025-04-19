@@ -1,2 +1,4 @@
 venv
 modules/__pycache__
+data/user_data/
+data/sample_files/
