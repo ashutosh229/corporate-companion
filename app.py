@@ -183,13 +183,7 @@ elif st.session_state.current_task == "scheduler":
 # File Organizer Task
 elif st.session_state.current_task == "file_organizer":
     st.header("Intelligent File Organizer")
-    
-    # Create sample files button
-    if st.button("Generate Sample Files"):
-        with st.spinner("Creating sample files..."):
-            file_organizer.create_sample_files()
-            st.success("Sample files created successfully!")
-    
+        
     # Display existing files
     files = file_organizer.list_files()
     if files:
