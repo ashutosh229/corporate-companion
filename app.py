@@ -4,6 +4,7 @@ from modules.user_manager import UserManager
 from modules.scheduler import MeetingScheduler
 from modules.file_organizer import FileOrganizer
 from modules.llm_interface import LLMInterface
+from modules.utils import sanitize_text,normalize_phone
 
 # Initialize session state variables if they don't exist
 if 'chat_history' not in st.session_state:
@@ -74,14 +75,15 @@ if st.session_state.current_task == "intro" or st.session_state.current_task == 
             
             if validation_results["valid"]:
                 user_data = {
-                    "name": name if name else "Anonymous User",
-                    "email": email if email else "Not provided",
-                    "phone": phone if phone else "Not provided",
-                    "department": department if department else "Not provided",
-                    "employee_id": employee_id if employee_id else "Not provided",
-                    "office_location": office_location if office_location else "Not provided",
+                    "name": sanitize_text(name, default="Anonymous User"),
+                    "email": sanitize_text(email),
+                    "phone": normalize_phone(phone),
+                    "department": sanitize_text(department),
+                    "employee_id": sanitize_text(employee_id),
+                    "office_location": sanitize_text(office_location),
                     "has_resume": resume_file is not None
                 }
+
                 
                 # Save resume if uploaded
                 if resume_file:
