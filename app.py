@@ -1,5 +1,6 @@
 import os
 import streamlit as st
+from datetime import datetime
 from modules.user_manager import UserManager
 from modules.scheduler import MeetingScheduler
 from modules.file_organizer import FileOrganizer
@@ -154,7 +155,7 @@ elif st.session_state.current_task == "scheduler":
     with col1:
         start_date = st.date_input("Start looking from date:")
     with col2:
-        days_to_search = st.number_input("Number of days to search:", min_value=1, max_value=14, value=5)
+        days_to_search = st.number_input("Number of days to search:", min_value=1, max_value=14, value=5, step=1)
     
     if st.button("Find Available Slots"):
         if participants:
@@ -168,17 +169,61 @@ elif st.session_state.current_task == "scheduler":
                 
                 if available_slots:
                     st.success(f"Found {len(available_slots)} available slots!")
-                    for i, slot in enumerate(available_slots[:5], 1):  # Show top 5 slots
-                        slot_str = f"{slot['date']} from {slot['start_time']} to {slot['end_time']}"
-                        st.write(f"Slot {i}: {slot_str}")
-                        if st.button(f"Book Slot {i}", key=f"book_{i}"):
-                            scheduler.book_meeting(participants, slot)
-                            st.success(f"Meeting booked for {slot_str} with {', '.join(participants)}!")
+                    
+                    # Create a container with fixed height for scrollable content
+                    slots_container = st.container()
+                    
+                    # Set a max height for the scrollable area using custom CSS
+                    # Set a max height for the scrollable area using custom CSS
+                    st.markdown("""
+                        <style>
+                        .scrollable-slots-container {
+                            max-height: 400px;
+                            overflow-y: scroll;
+                            padding-right: 10px;
+                        }
+
+                        .slot-entry {
+                            padding: 10px;
+                            margin-bottom: 8px;
+                            border: 1px solid #e0e0e0;
+                            border-radius: 5px;
+                            background-color: #f9f9f9;
+                        }
+                        </style>
+                    """, unsafe_allow_html=True)
+                    
+                    # Create the scrollable container with all available slots
+                    with slots_container:
+                        st.markdown('<div class="scrollable-slots-container">', unsafe_allow_html=True)
+                        
+                        for i, slot in enumerate(available_slots, 1):
+                            # Format the slot information
+                            slot_date = slot['date']
+                            day_of_week = datetime.strptime(slot_date, "%Y-%m-%d").strftime("%A")
+                            slot_str = f"{slot_date} ({day_of_week}) from {slot['start_time']} to {slot['end_time']}"
+                            
+                            # Create a unique key for each slot
+                            slot_key = f"slot_{slot_date}_{slot['start_time'].replace(':', '')}"
+                            
+                            # Use columns to display slot info and button side by side
+                            col1, col2 = st.columns([3, 1])
+                            with col1:
+                                st.write(f"**Slot {i}:** {slot_str}")
+                            with col2:
+                                if st.button("Book", key=f"book_{slot_key}"):
+                                    scheduler.book_meeting(participants, slot)
+                                    st.success(f"Meeting booked for {slot_str} with {', '.join(participants)}!")
+                                    st.balloons()  # Add a little celebration
+                            
+                            # Add a separator between slots
+                            st.markdown('</div>', unsafe_allow_html=True)
+                        
+                        st.markdown('</div>', unsafe_allow_html=True)
                 else:
                     st.error("No available slots found in the specified date range.")
         else:
             st.warning("Please select at least one participant.")
-            
             
 # File Organizer Task
 elif st.session_state.current_task == "file_organizer":
