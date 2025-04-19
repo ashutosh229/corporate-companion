@@ -51,13 +51,9 @@ class UserManager:
             "errors": errors
         }
     
-    def save_user_data(self, user_data):
-        """Save user data to a JSON file."""
-        if not user_data.get("name"):
-            user_data["name"] = "Anonymous User"
-        
+    def save_user_data(self, user_data):        
         # Use name or a timestamp as identifier
-        identifier = user_data.get("name", "anonymous").lower().replace(" ", "_")
+        identifier = user_data.get("employee_id")
         file_path = os.path.join(self.data_dir, f"{identifier}.json")
         
         with open(file_path, 'w') as f:
@@ -65,20 +61,8 @@ class UserManager:
         
         return True
     
-    def get_user_data(self, user_identifier=None):
-        """Get user data from storage."""
-        # If no specific user is requested, return the first one found (for simplicity)
-        if not user_identifier:
-            json_files = [f for f in os.listdir(self.data_dir) if f.endswith('.json')]
-            if not json_files:
-                return None
-            
-            user_file = json_files[0]
-        else:
-            # Format the identifier correctly
-            user_identifier = user_identifier.lower().replace(" ", "_")
-            user_file = f"{user_identifier}.json"
-        
+    def get_user_data(self, user_identifier):
+        user_file = f"{user_identifier}.json"
         file_path = os.path.join(self.data_dir, user_file)
         
         if os.path.exists(file_path):
@@ -87,13 +71,9 @@ class UserManager:
         
         return None
     
-    def save_resume(self, resume_file, name=None):
-        """Save a resume PDF file."""
-        if not name:
-            name = "Anonymous"
-        
+    def save_resume(self, resume_file, employee_id):        
         # Create a sanitized filename
-        safe_name = name.lower().replace(" ", "_")
+        safe_name = employee_id
         timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
         filename = f"{safe_name}_{timestamp}.pdf"
         file_path = os.path.join(self.data_dir, "resumes", filename)

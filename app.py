@@ -15,6 +15,8 @@ if 'user_info_collected' not in st.session_state:
     st.session_state.user_info_collected = False
 if 'upload_resume' not in st.session_state:
     st.session_state.upload_resume = False
+if "employee_id" not in st.session_state:
+    st.session_state.employee_id = ""
 
 # Initialize components
 user_manager = UserManager()
@@ -49,8 +51,12 @@ with st.sidebar:
 # Main content area
 if st.session_state.current_task == "intro" or st.session_state.current_task == "user_info":
     # User Information Collection Task
-    if not st.session_state.user_info_collected:
+    if not st.session_state.get("user_info_collected", False):
         st.write("Welcome! Let's start by collecting some basic information.")
+        
+        # Highlight employee ID clearly and make it mandatory
+        st.subheader("🔐 Employee Identification")
+        employee_id = st.text_input("Employee ID (Required)", key="employee_id_input")
         
         col1, col2 = st.columns(2)
         with col1:
@@ -63,43 +69,43 @@ if st.session_state.current_task == "intro" or st.session_state.current_task == 
         # Optional info
         with st.expander("Additional Information (Optional)"):
             department = st.text_input("Department", key="department_input")
-            employee_id = st.text_input("Employee ID", key="employee_id_input")
             office_location = st.text_input("Office Location", key="office_location_input")
         
         # Resume upload
         resume_file = st.file_uploader("Upload Resume (PDF)", type=["pdf"])
         
         if st.button("Submit Information"):
-            # Validate and store user information
-            validation_results = user_manager.validate_user_info(name, email, phone)
-            
-            if validation_results["valid"]:
-                user_data = {
+            if not employee_id.strip():
+                st.error("Employee ID is required")
+            else:
+                validation_results = user_manager.validate_user_info(name, email, phone)
+                if validation_results["valid"]:
+                    user_data = {
                     "name": sanitize_text(name, default="Anonymous User"),
                     "email": sanitize_text(email),
                     "phone": normalize_phone(phone),
                     "department": sanitize_text(department),
-                    "employee_id": sanitize_text(employee_id),
+                    "employee_id": employee_id,
                     "office_location": sanitize_text(office_location),
                     "has_resume": resume_file is not None
-                }
-
+                    }
+                    if resume_file:
+                        user_manager.save_resume(resume_file, employee_id)
+                    
+                    user_manager.save_user_data(user_data)
                 
-                # Save resume if uploaded
-                if resume_file:
-                    user_manager.save_resume(resume_file, name)
-                
-                # Save user data
-                user_manager.save_user_data(user_data)
-                st.session_state.user_info_collected = True
-                st.success("Information saved successfully!")
-            else:
-                for field, message in validation_results["errors"].items():
-                    if message:
-                        st.error(f"{field}: {message}")
+                    st.session_state.user_info_collected = True
+                    st.session_state.employee_id = employee_id
+                    st.success("Information saved successfully!")
+                    st.experimental_rerun()
+                else:
+                    for field, message in validation_results["errors"].items():
+                        if message:
+                            st.error(f"{field}: {message}")
     else:
-        # Display saved user information
-        user_data = user_manager.get_user_data()
+        # Display saved user 
+        employee_id = st.session_state.get("employee_id", "")
+        user_data = user_manager.get_user_data(user_identifier=employee_id)
         if user_data:
             st.write(f"### Welcome, {user_data.get('name', 'User')}!")
             
@@ -122,6 +128,7 @@ if st.session_state.current_task == "intro" or st.session_state.current_task == 
                 
             if st.button("Update Information"):
                 st.session_state.user_info_collected = False
+                st.experimental_rerun()
 
 # Meeting Scheduler Task
 elif st.session_state.current_task == "scheduler":
