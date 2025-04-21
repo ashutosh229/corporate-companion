@@ -145,4 +145,15 @@ A detailed journal has been maintained for this project. It includes:
 
 ---
 
+## 📝 Problem 2 Solution
+
+The solution for the problem 2 of the assignment includes the following: 
+
+- Documentation for the Python request library
+- Documentation for scraping flat listings from Magicbricks for the Delhi region
+
+📄 Access the solution here: [View solution on Google Docs](https://docs.google.com/document/d/1ez9WuyCCKqNQWOsCyY0IWMK5nDw7LX4UC-alKNEVgeg/edit?usp=sharing)
+
+---
+
 
