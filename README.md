@@ -59,6 +59,7 @@ A LangChain-based LLM-powered chatbot to assist employees with internal organiza
 - **datetime** (for date-time handling and manipulations)
 - **re**, **phonenumbers**, **email_validator** (for validation purposes)
 
+---
 
 ## 🚀 Project Setup
 
