@@ -90,6 +90,27 @@ Follow the steps below to set up and run the Corporate Companion Chatbot on your
 ### 🔧 1. Clone the Repository
 
 ```bash
-git clone https://github.com/your-username/corporate-companion-chatbot.git
-cd corporate-companion-chatbot
+git clone https://github.com/ashutosh229/corporate-companion.git
+cd corporate-companion
+```
+
+### 🔧 2. Populate the data directory
+
+```bash
+cd data
+mkdir categories sample_files user_data
+cd user_data 
+mkdir resumes
+cd .. 
+cd ..
+```
+
+### 🔧 3. Creation of sample files 
+
+```bash
+
+```
+
+
+
 
