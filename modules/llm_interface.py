@@ -50,9 +50,6 @@ class MockLLM(LLM):
     def _call(
         self,
         prompt: str,
-        stop: Optional[List[str]] = None,
-        run_manager: Optional[CallbackManagerForLLMRun] = None,
-        **kwargs,
     ) -> str:
         if "categorize" in prompt.lower() and "files" in prompt.lower():
             return """
@@ -78,12 +75,12 @@ class MockLLM(LLM):
 
 
 class LLMInterface:
-    def __init__(self, repo_id, task):
+    def __init__(self, repo_id, task, model_kwargs, hugging_face_token):
         try:
             self.llm = HuggingFaceHub(
                 repo_id=repo_id,
-                model_kwargs={"temperature": 0.5, "max_length": 2000},
-                huggingfacehub_api_token="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",
+                model_kwargs=model_kwargs,
+                huggingfacehub_api_token=hugging_face_token,
                 verbose=False,
                 task=task,
             )
