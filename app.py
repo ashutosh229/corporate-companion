@@ -10,6 +10,15 @@ from modules.utils import sanitize_text, normalize_phone
 
 load_dotenv()
 
+repo_id = os.getenv("REPO_ID")
+task = os.getenv("TASK")
+teams_file = os.getenv("TEAMS_FILE")
+schedule_file = os.getenv("SCHEDULE_FILE")
+sample_files_dir = os.getenv("SAMPLE_FILES_DIR")
+file_categories_dir = os.getenv("FILE_CATEGORIES_DIR")
+hugging_face_token = os.getenv("HUGGING_FACE_TOKEN")
+model_kwargs = {"temperature": 0.5, "top_p": 0.95, "max_length": 512}
+
 if "chat_history" not in st.session_state:
     st.session_state.chat_history = []
 if "current_task" not in st.session_state:
@@ -21,17 +30,22 @@ if "upload_resume" not in st.session_state:
 if "employee_id" not in st.session_state:
     st.session_state.employee_id = ""
 
-repo_id = os.getenv("REPO_ID")
-task = os.getenv("TASK")
-teams_file = os.getenv("TEAMS_FILE")
-schedule_file = os.getenv("SCHEDULE_FILE")
-sample_files_dir = os.getenv("SAMPLE_FILES_DIR")
-file_categories_dir = os.getenv("FILE_CATEGORIES_DIR")
-
 user_manager = UserManager()
-llm_interface = LLMInterface(repo_id, task)
+llm_interface = LLMInterface(
+    repo_id,
+    task,
+    model_kwargs,
+    hugging_face_token,
+)
 scheduler = MeetingScheduler(teams_file, schedule_file)
-file_organizer = FileOrganizer(repo_id, task, sample_files_dir, file_categories_dir)
+file_organizer = FileOrganizer(
+    repo_id,
+    task,
+    sample_files_dir,
+    file_categories_dir,
+    model_kwargs,
+    hugging_face_token,
+)
 
 st.title("Corporate Companion")
 st.subheader("Your AI-powered Employee Assistant")

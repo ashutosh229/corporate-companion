@@ -10,10 +10,14 @@ class FileOrganizer:
         task,
         sample_files_dir,
         categories_dir,
+        model_kwargs,
+        hugging_face_token,
     ):
         self.sample_files_dir = sample_files_dir
         self.categories_dir = categories_dir
-        self.llm_interface = LLMInterface(repo_id, task)
+        self.llm_interface = LLMInterface(
+            repo_id, task, model_kwargs, hugging_face_token
+        )
 
     def create_sample_files(self):
         for item in os.listdir(self.sample_files_dir):
