@@ -8,13 +8,13 @@ class FileOrganizer:
         self,
         repo_id,
         task,
-        sample_files_dir="data/sample_files",
-        categories_dir="data/categories",
+        sample_files_dir,
+        categories_dir,
     ):
         self.sample_files_dir = sample_files_dir
         self.categories_dir = categories_dir
         self.llm_interface = LLMInterface(repo_id, task)
-    
+
     def create_sample_files(self):
         for item in os.listdir(self.sample_files_dir):
             item_path = os.path.join(self.sample_files_dir, item)
