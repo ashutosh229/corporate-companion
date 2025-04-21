@@ -3,7 +3,7 @@ import os
 import pandas as pd
 import tempfile
 from datetime import datetime, timedelta
-from modules.scheduler import MeetingScheduler
+from modules.meeting_scheduler import MeetingScheduler
 
 class TestMeetingScheduler(unittest.TestCase):
     def setUp(self):

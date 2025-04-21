@@ -2,7 +2,7 @@ import os
 import streamlit as st
 from datetime import datetime
 from modules.user_manager import UserManager
-from modules.scheduler import MeetingScheduler
+from modules.meeting_scheduler import MeetingScheduler
 from modules.file_organizer import FileOrganizer
 from modules.llm_interface import LLMInterface
 from modules.utils import sanitize_text,normalize_phone
@@ -151,7 +151,7 @@ elif st.session_state.current_task == "scheduler":
         team = st.selectbox("Select team:", scheduler.get_all_teams())
         participants = scheduler.get_team_members(team)
         st.write(f"Team members: {', '.join(participants)}")
-        
+
     duration = st.number_input("Meeting duration (hours):", min_value=0.5, max_value=3.0, value=1.0, step=0.5)
     
     col1, col2 = st.columns(2)
