@@ -117,19 +117,6 @@ cd ..
 streamlit run app.py
 ```
 
-## 📬 Contact
-
-If you have any questions, suggestions, or feedback about this project, feel free to reach out:
-
-**Name:** Ashutosh Kumar Jha 
-**Email:** [your.email@example.com](mailto:ashutoshj@iitbhilai.ac.in)  
-**LinkedIn:** [linkedin.com/in/yourprofile](https://www.linkedin.com/in/ashutosh-kumar-jha-601098280/)  
-**GitHub:** [github.com/yourusername](https://github.com/ashutosh229/)
-
----
-
-⭐ If you found this project helpful, feel free to give it a star on GitHub!
-
 ---
 
 ## 📝 Journal
@@ -155,5 +142,18 @@ The solution for the problem 2 of the assignment includes the following:
 📄 Access the solution here: [View solution on Google Docs](https://docs.google.com/document/d/1ez9WuyCCKqNQWOsCyY0IWMK5nDw7LX4UC-alKNEVgeg/edit?usp=sharing)
 
 ---
+
+## 📬 Contact
+
+If you have any questions, suggestions, or feedback about this project, feel free to reach out:
+
+**Name:** Ashutosh Kumar Jha 
+**Email:** [your.email@example.com](mailto:ashutoshj@iitbhilai.ac.in)  
+**LinkedIn:** [linkedin.com/in/yourprofile](https://www.linkedin.com/in/ashutosh-kumar-jha-601098280/)  
+**GitHub:** [github.com/yourusername](https://github.com/ashutosh229/)
+
+---
+
+⭐ If you found this project helpful, feel free to give it a star on GitHub!
 
 
