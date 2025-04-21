@@ -18,12 +18,15 @@ if 'upload_resume' not in st.session_state:
     st.session_state.upload_resume = False
 if "employee_id" not in st.session_state:
     st.session_state.employee_id = ""
+    
+repo_id = "google/flan-t5-small"
+task = "text2text-generation"
 
 # Initialize components
 user_manager = UserManager()
-llm_interface = LLMInterface()
+llm_interface = LLMInterface(repo_id=repo_id,task=task)
 scheduler = MeetingScheduler('data/employee_teams.csv', 'data/employee_schedules.csv')
-file_organizer = FileOrganizer()
+file_organizer = FileOrganizer(repo_id,task)
 
 st.title("Corporate Companion")
 st.subheader("Your AI-powered Employee Assistant")
@@ -89,7 +92,7 @@ if st.session_state.current_task == "intro" or st.session_state.current_task == 
                     "employee_id": employee_id,
                     "office_location": sanitize_text(office_location),
                     "has_resume": resume_file is not None
-                    }
+                }
                     if resume_file:
                         user_manager.save_resume(resume_file, employee_id)
                     
@@ -148,7 +151,7 @@ elif st.session_state.current_task == "scheduler":
         team = st.selectbox("Select team:", scheduler.get_all_teams())
         participants = scheduler.get_team_members(team)
         st.write(f"Team members: {', '.join(participants)}")
-    
+        
     duration = st.number_input("Meeting duration (hours):", min_value=0.5, max_value=3.0, value=1.0, step=0.5)
     
     col1, col2 = st.columns(2)

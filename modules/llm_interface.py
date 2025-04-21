@@ -1,20 +1,29 @@
-import os
 import json
-from typing import Dict, List, Optional, Any
-
-# Updated imports for newer LangChain structure
-from langchain_community.llms import LlamaCpp
+from typing import Dict, List, Optional
+from langchain_community.llms.huggingface_hub import HuggingFaceHub
 from langchain_core.language_models.llms import LLM
-from langchain_core.callbacks.manager import CallbackManager, CallbackManagerForLLMRun
-from langchain_core.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
+from langchain_core.callbacks.manager import CallbackManagerForLLMRun
 from langchain.chains import LLMChain
 from langchain_core.prompts import PromptTemplate
 from langchain.output_parsers import PydanticOutputParser
-from langchain_core.pydantic_v1 import BaseModel, Field
+from pydantic import BaseModel, Field
 
 class FileCategories(BaseModel):
     """Model for file categorization results."""
-    categories: Dict[str, str] = Field(description="Dictionary mapping filenames to categories")
+    categories: Dict[str, str] = Field(..., description="Dictionary mapping filenames to categories")
+    model_config = {
+        "json_schema_extra":{
+            "examples":[
+                {
+                    "categories": {
+                      "expense_report_march.pdf": "Finance",
+                      "tax_documentation.pdf": "Finance",
+                      "employee_policy.docx": "HR",
+                    }
+                }
+            ]
+        }
+    }
 
 class MeetingSlot(BaseModel):
     """Model for available meeting slots."""
@@ -68,28 +77,14 @@ class MockLLM(LLM):
             return "I've processed your request, here's my response."
 
 class LLMInterface:
-    def __init__(self, model_path="models/llama-3-8b-instruct.Q4_K_M.gguf"):
-        """Initialize the LLM interface with a local model."""
-        # Set up directories
-        os.makedirs(os.path.dirname(model_path), exist_ok=True)
-        
-        # For real implementation, download or supply the model
-        # Here we'll use a fallback to ensure the code runs
+    def __init__(self, repo_id, task):
         try:
-            # Initialize LlamaCpp model if available
-            callback_manager = CallbackManager([StreamingStdOutCallbackHandler()])
-            self.llm = LlamaCpp(
-                model_path=model_path,
-                temperature=0.1,
-                max_tokens=2000,
-                n_ctx=4096,
-                callback_manager=callback_manager,
-                verbose=False
-            )
+            self.llm = HuggingFaceHub(repo_id=repo_id,model_kwargs={"temperature": 0.5, "max_length": 2000},huggingfacehub_api_token="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",verbose=False,task=task)
+            print("Real llm initialized")
         except Exception as e:
             print(f"Error initializing LlamaCpp: {e}")
-            # Fallback to a mock LLM for demo purposes
             self.llm = MockLLM()
+            print("mock llm initialized")
     
     def categorize_files(self, files):
         """Categorize files using LLM."""
@@ -121,8 +116,8 @@ class LLMInterface:
         files_str = "\n".join(files)
         try:
             result = chain.run(files=files_str)
-            # Parse the result using the parser
             parsed_output = parser.parse(result)
+            print("Real chain ran")
             return parsed_output.categories
         except Exception as e:
             print(f"Error parsing LLM output: {e}")
@@ -137,6 +132,8 @@ class LLMInterface:
                     categories[file] = "hr"
                 else:
                     categories[file] = "other"
+            
+            print("Mock chain ran")
             
             return categories
     
