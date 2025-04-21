@@ -60,8 +60,6 @@ A LangChain-based LLM-powered chatbot to assist employees with internal organiza
 - **datetime** (for date-time handling and manipulations)
 - **re**, **phonenumbers**, **email_validator** (for validation purposes)
 
-
-
 <!-- ## 📁 Project Structure
 
 📦 corporate-companion
@@ -84,4 +82,14 @@ A LangChain-based LLM-powered chatbot to assist employees with internal organiza
 │   ├── user_manager.py
 │   └── utils.py
 ├── requirements.txt -->
+
+## 🚀 Project Setup
+
+Follow the steps below to set up and run the Corporate Companion Chatbot on your local machine.
+
+### 🔧 1. Clone the Repository
+
+```bash
+git clone https://github.com/your-username/corporate-companion-chatbot.git
+cd corporate-companion-chatbot
 
