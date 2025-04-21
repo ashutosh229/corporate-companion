@@ -130,5 +130,19 @@ If you have any questions, suggestions, or feedback about this project, feel fre
 
 ⭐ If you found this project helpful, feel free to give it a star on GitHub!
 
+---
+
+## 📝 Journal
+
+A detailed journal has been maintained for this project. It includes:
+
+- The difficulties faced during the development of the project
+- What worked and what did not
+- What could be improved in the implementation
+- Pending implementations
+
+📄 Access the journal here: [View Journal on Google Docs](https://docs.google.com/document/d/1qPccQ61x1YoLokYt_ON_T32EEyd_VIq1T7SzE3bf1j0/edit?usp=sharing)
+
+---
 
 
