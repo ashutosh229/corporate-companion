@@ -62,7 +62,7 @@ A LangChain-based LLM-powered chatbot to assist employees with internal organiza
 
 
 
-## 📁 Project Structure
+<!-- ## 📁 Project Structure
 
 📦 corporate-companion
 ├── .git
@@ -83,5 +83,5 @@ A LangChain-based LLM-powered chatbot to assist employees with internal organiza
 │   ├── meeting_scheduler.py
 │   ├── user_manager.py
 │   └── utils.py
-├── requirements.txt
+├── requirements.txt -->
 
