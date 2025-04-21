@@ -133,7 +133,7 @@ cd ..
 ```
 
 ### 🔧 6. Creation of sample files 
--Create 10 sample files in the 2 logical categories: Finance and HR
+-Create 10 sample files in the 2 logical categories: Finance and HR in the ```/data/sample_files``` directory
 
 ### 🔧 7. 
 
