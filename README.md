@@ -150,9 +150,9 @@ If you have any questions, suggestions, or feedback about this project, feel fre
 
 **Name:** Ashutosh Kumar Jha 
 <br>
-**Email:** [your.email@example.com](mailto:ashutoshj@iitbhilai.ac.in)  
-**LinkedIn:** [linkedin.com/in/yourprofile](https://www.linkedin.com/in/ashutosh-kumar-jha-601098280/)  
-**GitHub:** [github.com/yourusername](https://github.com/ashutosh229/)
+**Email:** [Email](mailto:ashutoshj@iitbhilai.ac.in)  
+**LinkedIn:** [Linkedin](https://www.linkedin.com/in/ashutosh-kumar-jha-601098280/)  
+**GitHub:** [Github](https://github.com/ashutosh229/)
 
 ---
 
