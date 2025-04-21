@@ -16,7 +16,6 @@ A LangChain-based LLM-powered chatbot to assist employees with internal organiza
 - Handles missing data gracefully by storing placeholder values.
 - Validates critical details like emails and phone numbers
 - Parsing of phone numbers (India format) and emails into proper structure for storage purposes.
-<!-- - Allows users to query collected information. -->
 
 ### ✅ 2. Appointment Scheduling Assistant
 - Schedules meetings:
@@ -122,15 +121,14 @@ streamlit run app.py
 
 If you have any questions, suggestions, or feedback about this project, feel free to reach out:
 
-**Name:** Your Name  
-**Email:** [your.email@example.com](mailto:your.email@example.com)  
-**LinkedIn:** [linkedin.com/in/yourprofile](https://linkedin.com/in/yourprofile)  
-**GitHub:** [github.com/yourusername](https://github.com/yourusername)
+**Name:** Ashutosh Kumar Jha 
+**Email:** [your.email@example.com](mailto:ashutoshj@iitbhilai.ac.in)  
+**LinkedIn:** [linkedin.com/in/yourprofile](https://www.linkedin.com/in/ashutosh-kumar-jha-601098280/)  
+**GitHub:** [github.com/yourusername](https://github.com/ashutosh229/)
 
 ---
 
 ⭐ If you found this project helpful, feel free to give it a star on GitHub!
-
 
 
 
