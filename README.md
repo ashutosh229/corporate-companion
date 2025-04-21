@@ -107,6 +107,20 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
+### 🔧 4. Handling the environment variables
+# Crate a .env file in the root of your directory
+# Load the following env variables in the .env file 
+```bash 
+REPO_ID = "google/flan-t5-small"
+TASK = "text2text-generation"
+TEAMS_FILE = "data/employee_teams.csv"
+SCHEDULE_FILE = "data/employee_schedules.csv"
+SAMPLE_FILES_DIR = "data/sample_files"
+FILE_CATEGORIES_DIR = "data/categories"
+HUGGING_FACE_TOKEN = <your-huggingface-token>
+USER_DATA_DIR = "data/user_data"
+```
+
 ### 🔧 4. Populate the data directory
 
 ```bash
