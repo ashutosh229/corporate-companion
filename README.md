@@ -118,6 +118,19 @@ cd ..
 streamlit run app.py
 ```
 
+## 📬 Contact
+
+If you have any questions, suggestions, or feedback about this project, feel free to reach out:
+
+**Name:** Your Name  
+**Email:** [your.email@example.com](mailto:your.email@example.com)  
+**LinkedIn:** [linkedin.com/in/yourprofile](https://linkedin.com/in/yourprofile)  
+**GitHub:** [github.com/yourusername](https://github.com/yourusername)
+
+---
+
+⭐ If you found this project helpful, feel free to give it a star on GitHub!
+
 
 
 
