@@ -60,28 +60,6 @@ A LangChain-based LLM-powered chatbot to assist employees with internal organiza
 - **datetime** (for date-time handling and manipulations)
 - **re**, **phonenumbers**, **email_validator** (for validation purposes)
 
-<!-- ## 📁 Project Structure
-
-📦 corporate-companion
-├── .git
-├── .gitignore
-├── README.md
-├── app.py
-├── data
-│   ├── categories
-│   ├── employee_schedules.csv
-│   ├── employee_teams.csv
-│   ├── sample_files
-│   └── user_data
-│       └── resumes
-├── modules
-│   ├── __init__.py
-│   ├── file_organizer.py
-│   ├── llm_interface.py
-│   ├── meeting_scheduler.py
-│   ├── user_manager.py
-│   └── utils.py
-├── requirements.txt -->
 
 ## 🚀 Project Setup
 
@@ -133,9 +111,12 @@ cd ..
 ```
 
 ### 🔧 6. Creation of sample files 
--Create 10 sample files in the 2 logical categories: Finance and HR in the ```/data/sample_files``` directory
+- Create 10 sample files in the 2 logical categories: Finance and HR in the ```/data/sample_files``` directory
 
-### 🔧 7. 
+### 🔧 7. Run the application
+```bash
+streamlit run app.py
+```
 
 
 
