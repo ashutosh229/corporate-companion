@@ -94,7 +94,20 @@ git clone https://github.com/ashutosh229/corporate-companion.git
 cd corporate-companion
 ```
 
-### 🔧 2. Populate the data directory
+### 🔧 2. Creation of virtual environment
+
+```bash
+python3 -m venv venv
+source venv/bin/activate
+```
+
+### 🔧 3. Installation of dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+### 🔧 4. Populate the data directory
 
 ```bash
 cd data
@@ -105,11 +118,13 @@ cd ..
 cd ..
 ```
 
-### 🔧 3. Creation of sample files 
+### 🔧 5. Creation of sample files 
 
 ```bash
 
 ```
+
+### 🔧 6. Creation of sample files 
 
 
 
