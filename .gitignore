@@ -4,3 +4,4 @@ data/user_data/
 data/sample_files/
 data/categories
 test.py
+.env
