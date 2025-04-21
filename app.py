@@ -1,11 +1,14 @@
 import os
 import streamlit as st
 from datetime import datetime
+from dotenv import load_dotenv
 from modules.user_manager import UserManager
 from modules.meeting_scheduler import MeetingScheduler
 from modules.file_organizer import FileOrganizer
 from modules.llm_interface import LLMInterface
 from modules.utils import sanitize_text, normalize_phone
+
+load_dotenv()
 
 if "chat_history" not in st.session_state:
     st.session_state.chat_history = []
@@ -18,12 +21,14 @@ if "upload_resume" not in st.session_state:
 if "employee_id" not in st.session_state:
     st.session_state.employee_id = ""
 
-repo_id = "google/flan-t5-small"
-task = "text2text-generation"
+repo_id = os.getenv("REPO_ID")
+task = os.getenv("TASK")
+teams_file = os.getenv("TEAMS_FILE")
+schedule_file = os.getenv("SCHEDULE_FILE")
 
 user_manager = UserManager()
-llm_interface = LLMInterface(repo_id=repo_id, task=task)
-scheduler = MeetingScheduler("data/employee_teams.csv", "data/employee_schedules.csv")
+llm_interface = LLMInterface(repo_id, task)
+scheduler = MeetingScheduler(teams_file, schedule_file)
 file_organizer = FileOrganizer(repo_id, task)
 
 st.title("Corporate Companion")
