@@ -8,21 +8,25 @@ from langchain_core.prompts import PromptTemplate
 from langchain.output_parsers import PydanticOutputParser
 from pydantic import BaseModel, Field
 
+
 class FileCategories(BaseModel):
-    categories: Dict[str, str] = Field(..., description="Dictionary mapping filenames to categories")
+    categories: Dict[str, str] = Field(
+        ..., description="Dictionary mapping filenames to categories"
+    )
     model_config = {
-        "json_schema_extra":{
-            "examples":[
+        "json_schema_extra": {
+            "examples": [
                 {
                     "categories": {
-                      "expense_report_march.pdf": "Finance",
-                      "tax_documentation.pdf": "Finance",
-                      "employee_policy.docx": "HR",
+                        "expense_report_march.pdf": "Finance",
+                        "tax_documentation.pdf": "Finance",
+                        "employee_policy.docx": "HR",
                     }
                 }
             ]
         }
     }
+
 
 class MeetingSlot(BaseModel):
     date: str = Field(description="Date of the meeting in YYYY-MM-DD format")
@@ -31,23 +35,24 @@ class MeetingSlot(BaseModel):
     duration: float = Field(description="Duration of the meeting in hours")
     participants: List[str] = Field(description="List of meeting participants")
 
+
 class HRPolicies(BaseModel):
     title: str = Field(description="Title of the policy")
     description: str = Field(description="Description of the policy")
     details: Optional[str] = Field(description="Additional details or clarifications")
 
+
 class MockLLM(LLM):
-    
     @property
     def _llm_type(self) -> str:
         return "mock_llm"
-    
+
     def _call(
-        self, 
-        prompt: str, 
+        self,
+        prompt: str,
         stop: Optional[List[str]] = None,
         run_manager: Optional[CallbackManagerForLLMRun] = None,
-        **kwargs
+        **kwargs,
     ) -> str:
         if "categorize" in prompt.lower() and "files" in prompt.lower():
             return """
@@ -71,16 +76,23 @@ class MockLLM(LLM):
         else:
             return "I've processed your request, here's my response."
 
+
 class LLMInterface:
     def __init__(self, repo_id, task):
         try:
-            self.llm = HuggingFaceHub(repo_id=repo_id,model_kwargs={"temperature": 0.5, "max_length": 2000},huggingfacehub_api_token="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",verbose=False,task=task)
+            self.llm = HuggingFaceHub(
+                repo_id=repo_id,
+                model_kwargs={"temperature": 0.5, "max_length": 2000},
+                huggingfacehub_api_token="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",
+                verbose=False,
+                task=task,
+            )
             print("Real llm initialized")
         except Exception as e:
             print(f"Error initializing LlamaCpp: {e}")
             self.llm = MockLLM()
             print("mock llm initialized")
-    
+
     def categorize_files(self, files):
         template = """
         You are an expert file organizer. Your task is to categorize the following files into logical groups.
@@ -93,17 +105,17 @@ class LLMInterface:
         
         {format_instructions}
         """
-        
+
         parser = PydanticOutputParser(pydantic_object=FileCategories)
-        
+
         prompt = PromptTemplate(
             template=template,
             input_variables=["files"],
-            partial_variables={"format_instructions": parser.get_format_instructions()}
+            partial_variables={"format_instructions": parser.get_format_instructions()},
         )
-        
+
         chain = LLMChain(llm=self.llm, prompt=prompt)
-        
+
         files_str = "\n".join(files)
         try:
             result = chain.run(files=files_str)
@@ -112,19 +124,39 @@ class LLMInterface:
             return parsed_output.categories
         except Exception as e:
             print(f"Error parsing LLM output: {e}")
-            
+
             categories = {}
             for file in files:
                 lower_file = file.lower()
-                if any(term in lower_file for term in ["budget", "finance", "report", "tax", "expense", "balance"]):
+                if any(
+                    term in lower_file
+                    for term in [
+                        "budget",
+                        "finance",
+                        "report",
+                        "tax",
+                        "expense",
+                        "balance",
+                    ]
+                ):
                     categories[file] = "finance"
-                elif any(term in lower_file for term in ["hr", "employee", "leave", "onboarding", "review", "benefit"]):
+                elif any(
+                    term in lower_file
+                    for term in [
+                        "hr",
+                        "employee",
+                        "leave",
+                        "onboarding",
+                        "review",
+                        "benefit",
+                    ]
+                ):
                     categories[file] = "hr"
                 else:
                     categories[file] = "other"
-            
+
             return categories
-    
+
     def process_hr_query(self, query):
         hr_policies = {
             "leave": "Employees are entitled to 20 days of paid leave annually, accrued monthly.",
@@ -133,14 +165,14 @@ class LLMInterface:
             "holidays": "The company observes 10 federal holidays and provides 2 floating holidays.",
             "dress_code": "Business casual attire is required in the office.",
         }
-        
+
         events = {
             "company_picnic": "Annual company picnic on June 15, 2025 at Central Park.",
             "quarterly_review": "Q2 review meetings scheduled for July 1-5, 2025.",
             "training": "Mandatory security training on April 25, 2025.",
             "team_building": "Department team building events scheduled for May 10-15, 2025.",
         }
-        
+
         template = """
         You are a knowledgeable HR assistant. Answer the following query based on company policies and upcoming events.
         
@@ -154,18 +186,18 @@ class LLMInterface:
         
         Remember to be professional, helpful, and concise in your response.
         """
-        
+
         prompt = PromptTemplate(
             template=template,
             input_variables=["query"],
             partial_variables={
                 "policies": json.dumps(hr_policies, indent=2),
-                "events": json.dumps(events, indent=2)
-            }
+                "events": json.dumps(events, indent=2),
+            },
         )
-        
+
         chain = LLMChain(llm=self.llm, prompt=prompt)
-        
+
         try:
             result = chain.run(query=query)
             return result.strip()
