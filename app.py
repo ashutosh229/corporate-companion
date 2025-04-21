@@ -277,4 +277,4 @@ elif st.session_state.current_task == "hr_assistance":
             st.write(f"**Assistant:** {message['content']}")
 
 st.divider()
-st.caption("Corporate Companion | Powered by LangChain and Open-Source LLMs")
+st.caption("Corporate Companion | Developed by Ashutosh Kumar Jha")
