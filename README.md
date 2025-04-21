@@ -57,10 +57,31 @@ A LangChain-based LLM-powered chatbot to assist employees with internal organiza
 - **dotenv** (for environment variable handling)
 - **Pandas**, **os**, **shutil**, **json** (file & data handling, data loading)
 - **typing** (for type annotations)
-- **datetime** (for date-time handling and manipulati*ons)
+- **datetime** (for date-time handling and manipulations)
 - **re**, **phonenumbers**, **email_validator** (for validation purposes)
 
 
 
 ## 📁 Project Structure
+
+📦 corporate-companion
+├── .git
+├── .gitignore
+├── README.md
+├── app.py
+├── data
+│   ├── categories
+│   ├── employee_schedules.csv
+│   ├── employee_teams.csv
+│   ├── sample_files
+│   └── user_data
+│       └── resumes
+├── modules
+│   ├── __init__.py
+│   ├── file_organizer.py
+│   ├── llm_interface.py
+│   ├── meeting_scheduler.py
+│   ├── user_manager.py
+│   └── utils.py
+├── requirements.txt
 

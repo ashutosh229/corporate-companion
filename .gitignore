@@ -5,3 +5,4 @@ data/categories/
 modules/__pycache__
 test.py
 .env
+generate_tree.py

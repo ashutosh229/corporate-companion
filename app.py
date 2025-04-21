@@ -18,6 +18,7 @@ sample_files_dir = os.getenv("SAMPLE_FILES_DIR")
 file_categories_dir = os.getenv("FILE_CATEGORIES_DIR")
 hugging_face_token = os.getenv("HUGGING_FACE_TOKEN")
 model_kwargs = {"temperature": 0.5, "top_p": 0.95, "max_length": 512}
+user_data_dir = os.getenv("USER_DATA_DIR")
 
 if "chat_history" not in st.session_state:
     st.session_state.chat_history = []
@@ -30,7 +31,7 @@ if "upload_resume" not in st.session_state:
 if "employee_id" not in st.session_state:
     st.session_state.employee_id = ""
 
-user_manager = UserManager()
+user_manager = UserManager(user_data_dir)
 llm_interface = LLMInterface(
     repo_id,
     task,

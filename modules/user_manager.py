@@ -7,7 +7,7 @@ from datetime import datetime
 
 
 class UserManager:
-    def __init__(self, data_dir="data/user_data"):
+    def __init__(self, data_dir):
         self.data_dir = data_dir
 
     def validate_user_info(self, name, email, phone):
