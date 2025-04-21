@@ -9,7 +9,6 @@ from langchain.output_parsers import PydanticOutputParser
 from pydantic import BaseModel, Field
 
 class FileCategories(BaseModel):
-    """Model for file categorization results."""
     categories: Dict[str, str] = Field(..., description="Dictionary mapping filenames to categories")
     model_config = {
         "json_schema_extra":{
@@ -26,7 +25,6 @@ class FileCategories(BaseModel):
     }
 
 class MeetingSlot(BaseModel):
-    """Model for available meeting slots."""
     date: str = Field(description="Date of the meeting in YYYY-MM-DD format")
     start_time: str = Field(description="Start time in HH:MM format")
     end_time: str = Field(description="End time in HH:MM format")
@@ -34,13 +32,11 @@ class MeetingSlot(BaseModel):
     participants: List[str] = Field(description="List of meeting participants")
 
 class HRPolicies(BaseModel):
-    """Model for HR policy information."""
     title: str = Field(description="Title of the policy")
     description: str = Field(description="Description of the policy")
     details: Optional[str] = Field(description="Additional details or clarifications")
 
 class MockLLM(LLM):
-    """Mock LLM class that properly implements the LangChain LLM interface."""
     
     @property
     def _llm_type(self) -> str:
@@ -53,7 +49,6 @@ class MockLLM(LLM):
         run_manager: Optional[CallbackManagerForLLMRun] = None,
         **kwargs
     ) -> str:
-        """Simple implementation for demonstration."""
         if "categorize" in prompt.lower() and "files" in prompt.lower():
             return """
             {
@@ -87,8 +82,6 @@ class LLMInterface:
             print("mock llm initialized")
     
     def categorize_files(self, files):
-        """Categorize files using LLM."""
-        # Define the prompt for file categorization
         template = """
         You are an expert file organizer. Your task is to categorize the following files into logical groups.
         
@@ -109,10 +102,8 @@ class LLMInterface:
             partial_variables={"format_instructions": parser.get_format_instructions()}
         )
         
-        # Create an LLMChain with the properly implemented LLM
         chain = LLMChain(llm=self.llm, prompt=prompt)
         
-        # Run the chain
         files_str = "\n".join(files)
         try:
             result = chain.run(files=files_str)
@@ -122,7 +113,6 @@ class LLMInterface:
         except Exception as e:
             print(f"Error parsing LLM output: {e}")
             
-            # Fallback to basic categorization if parsing fails
             categories = {}
             for file in files:
                 lower_file = file.lower()
@@ -133,13 +123,9 @@ class LLMInterface:
                 else:
                     categories[file] = "other"
             
-            print("Mock chain ran")
-            
             return categories
     
     def process_hr_query(self, query):
-        """Process HR-related queries using LLM."""
-        # Define HR policies (in a real system, these would be loaded from a database)
         hr_policies = {
             "leave": "Employees are entitled to 20 days of paid leave annually, accrued monthly.",
             "remote_work": "Remote work is available for eligible employees up to 2 days per week.",
@@ -155,7 +141,6 @@ class LLMInterface:
             "team_building": "Department team building events scheduled for May 10-15, 2025.",
         }
         
-        # Define the prompt for HR queries
         template = """
         You are a knowledgeable HR assistant. Answer the following query based on company policies and upcoming events.
         
@@ -179,7 +164,6 @@ class LLMInterface:
             }
         )
         
-        # Use LLMChain with compatible approach
         chain = LLMChain(llm=self.llm, prompt=prompt)
         
         try:
