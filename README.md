@@ -108,8 +108,8 @@ pip install -r requirements.txt
 ```
 
 ### 🔧 4. Handling the environment variables
-# Crate a .env file in the root of your directory
-# Load the following env variables in the .env file 
+- Crate a .env file in the root of your directory
+- Load the following env variables in the .env file 
 ```bash 
 REPO_ID = "google/flan-t5-small"
 TASK = "text2text-generation"
