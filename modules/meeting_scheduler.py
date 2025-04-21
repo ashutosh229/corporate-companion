@@ -1,17 +1,15 @@
-import streamlit as st
 import pandas as pd
 from datetime import datetime, timedelta, time
-import calendar
-from typing import List, Dict, Any, Optional, Union
-from pydantic import BaseModel
+from typing import List, Dict, Any
+from pydantic import BaseModel, Field
 
 
 class MeetingSlot(BaseModel):
-    date: str
-    start_time: str
-    end_time: str
-    duration: float
-    participants: List[str]
+    date: str = Field(description="Date of the meeting in YYYY-MM-DD format")
+    start_time: str = Field(description="Start time in HH:MM format")
+    end_time: str = Field(description="End time in HH:MM format")
+    duration: float = Field(description="Duration of the meeting in hours")
+    participants: List[str] = Field(description="List of meeting participants")
 
 
 class MeetingScheduler:

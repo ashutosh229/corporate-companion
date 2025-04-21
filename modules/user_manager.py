@@ -3,7 +3,6 @@ import json
 import re
 import phonenumbers
 from email_validator import validate_email, EmailNotValidError
-import PyPDF2
 from datetime import datetime
 
 
@@ -69,14 +68,3 @@ class UserManager:
             f.write(resume_file.getvalue())
 
         return file_path
-
-    def extract_resume_text(self, resume_path):
-        try:
-            reader = PyPDF2.PdfReader(resume_path)
-            text = ""
-            for page in reader.pages:
-                text += page.extract_text() + "\n"
-            return text
-        except Exception as e:
-            print(f"Error extracting resume text: {e}")
-            return ""

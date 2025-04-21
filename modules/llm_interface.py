@@ -2,7 +2,6 @@ import json
 from typing import Dict, List, Optional
 from langchain_community.llms.huggingface_hub import HuggingFaceHub
 from langchain_core.language_models.llms import LLM
-from langchain_core.callbacks.manager import CallbackManagerForLLMRun
 from langchain.chains import LLMChain
 from langchain_core.prompts import PromptTemplate
 from langchain.output_parsers import PydanticOutputParser
