@@ -56,7 +56,7 @@ if (
     if not st.session_state.get("user_info_collected", False):
         st.write("Welcome! Let's start by collecting some basic information.")
 
-        st.subheader("🔐 Employee Identification")
+        st.subheader("Employee Identification")
         employee_id = st.text_input("Employee ID (Required)", key="employee_id_input")
 
         col1, col2 = st.columns(2)
