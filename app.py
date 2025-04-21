@@ -69,6 +69,7 @@ with st.sidebar:
     st.divider()
     if st.button("Clear Chat History"):
         st.session_state.chat_history = []
+        st.experimental_rerun()
 
 if (
     st.session_state.current_task == "intro"
