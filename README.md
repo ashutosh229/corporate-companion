@@ -149,6 +149,7 @@ The solution for the problem 2 of the assignment includes the following:
 If you have any questions, suggestions, or feedback about this project, feel free to reach out:
 
 **Name:** Ashutosh Kumar Jha 
+<br>
 **Email:** [your.email@example.com](mailto:ashutoshj@iitbhilai.ac.in)  
 **LinkedIn:** [linkedin.com/in/yourprofile](https://www.linkedin.com/in/ashutosh-kumar-jha-601098280/)  
 **GitHub:** [github.com/yourusername](https://github.com/ashutosh229/)
