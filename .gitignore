@@ -1,7 +1,7 @@
 venv
-modules/__pycache__
 data/user_data/
 data/sample_files/
-data/categories
+data/categories/
+modules/__pycache__
 test.py
 .env

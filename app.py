@@ -261,6 +261,10 @@ elif st.session_state.current_task == "file_organizer":
         st.write("### Current Files:")
         for file in files:
             st.write(f"- {file}")
+    else:
+        st.write(
+            "No files found in the directory. Please first create some files in the directory (/data/sample_files/)"
+        )
 
     if st.button("Organize Files"):
         with st.spinner("Analyzing and organizing files..."):
@@ -274,7 +278,9 @@ elif st.session_state.current_task == "file_organizer":
                     for file in files:
                         st.write(f"- {file}")
             else:
-                st.error("Error organizing files. Please try again.")
+                st.error(
+                    "Error organizing files. Please try again. The sample_files directory should contain some files to organize. It can happen that it may be empty. Please check it once"
+                )
 
 elif st.session_state.current_task == "hr_assistance":
     st.header("HR Policy Assistant")
